@@ -1,0 +1,27 @@
+// Code your testbench here
+// or browse Examples
+class arr_rand;
+  rand bit [15:0] a[1000];
+  bit i;
+  constraint c1{foreach (a[i]) (a[i] inside{[1:1000]});}
+  
+                  endclass
+                  
+                  arr_rand r;
+                    
+                  module random_array;
+                    initial
+                      begin
+                        r=new();
+                        repeat(3) begin
+                          void'(r.randomize());
+                          $display("%p",r.a);
+                          foreach(r.a[i])
+                            begin
+                              if(r.a[i]==i)
+                                $display("%d %d", r.a[i],i);
+                            end
+                               
+                        end
+                      end
+                  endmodule
