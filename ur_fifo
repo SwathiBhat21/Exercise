@@ -1,0 +1,89 @@
+// Code your testbench here
+// or browse Examples
+virtual class fifo #(parameter DEPTH=16);
+  
+  
+  pure virtual function void fifo_write;
+  pure virtual function void fifo_read;
+  pure virtual function void is_full;
+  pure virtual function void is_empty;
+
+endclass 
+    
+    class fifo_imp extends fifo;
+      rand bit [7:0] data_in;
+      int count;
+      
+      virtual function void fifo_write();
+          bit write_en=1;
+        int a[10];
+        foreach(a[i])
+          a[i]=data_in;
+          count=count+1;
+        $display("writing %d",data_in);
+        endfunction
+    
+      virtual function void fifo_read();
+          bit read_en=1;
+        count=count-1;
+        $display("reading %d",data_in);
+         endfunction
+    
+      virtual function void is_full();
+     //count=0;
+       //bit write_en=1;
+        //count=count+1;
+    if(count==DEPTH)
+      begin
+      $display("full");
+      end   
+    endfunction
+  
+      virtual function void is_empty();
+     //count=DEPTH;
+    //bit read_en=1;
+      //count=count-1;
+    if(count==0)
+      begin
+        $display("empty");
+      end
+    endfunction 
+      
+    endclass
+   
+    
+    class fifo_peek extends fifo_imp;
+    endclass
+    
+ 
+    fifo_imp i;
+    fifo_peek p;
+    
+    module fifo_model;
+      initial 
+        begin
+          i=new();
+          repeat(20) begin
+            void'(i.randomize());
+            
+           i.fifo_write();
+            i.is_full();
+          end
+          repeat(25) begin
+            void'(i.randomize());
+            i.fifo_read();
+            //i.is_full();
+            i.is_empty();
+          end
+           // $display("%d",i.data_in);
+         
+        end
+    endmodule
+            
+      
+
+
+
+  
+  
+  
