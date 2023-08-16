@@ -1,0 +1,25 @@
+// Code your testbench here
+// or browse Examples
+class sequencet;
+  rand bit[14:0]a;
+  bit i;
+  constraint c1{ foreach (a[i])  if (i%2==0)
+    a[i]==1;
+                else{
+                  a[i]==0;}
+               }
+                  endclass
+                  
+                  sequencet s;
+                    
+                  module sequence_dect;
+                    initial
+                      begin
+                        s=new();
+                        repeat(3) begin
+                          void'(s.randomize());
+                          $display("%b",s.a);
+                        end
+                      end
+                  endmodule
+                    
